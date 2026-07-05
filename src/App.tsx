@@ -121,6 +121,7 @@ function App() {
               onPause={pause}
               onStop={() => { stop(); clearDocument(); }}
               onSeek={seek}
+              onBookmark={() => toggleBookmark()}
             />
 
             <SettingsPanel 

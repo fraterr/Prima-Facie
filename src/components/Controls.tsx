@@ -8,6 +8,7 @@ interface ControlsProps {
   onPause: () => void;
   onStop: () => void;
   onSeek: (index: number) => void;
+  onBookmark: () => void;
 }
 
 export const Controls: React.FC<ControlsProps> = ({
@@ -17,7 +18,8 @@ export const Controls: React.FC<ControlsProps> = ({
   onPlay,
   onPause,
   onStop,
-  onSeek
+  onSeek,
+  onBookmark
 }) => {
   return (
     <div className="glass-panel controls-container">
@@ -62,6 +64,15 @@ export const Controls: React.FC<ControlsProps> = ({
         <span style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>
           {totalWords}
         </span>
+        <button 
+          className="btn"
+          style={{ padding: '0.4rem 0.6rem', fontSize: '1.2rem', border: 'none', background: 'transparent' }}
+          onClick={onBookmark}
+          disabled={totalWords === 0}
+          title="Add/Remove Bookmark (B)"
+        >
+          🔖
+        </button>
       </div>
     </div>
   );
