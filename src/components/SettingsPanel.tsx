@@ -118,6 +118,30 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({ settings, onUpdate
           </div>
         </div>
       </div>
+
+      <div style={{ marginTop: '2rem', paddingTop: '1.5rem', borderTop: '1px solid var(--surface-border)' }}>
+        <h3 style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '1rem' }}>
+          Keyboard Shortcuts
+        </h3>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem', fontSize: '0.85rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <span style={{ color: 'var(--text-muted)' }}>Play / Pause</span>
+            <kbd style={{ background: 'var(--surface-color)', padding: '0.2rem 0.5rem', borderRadius: '4px', border: '1px solid var(--surface-border)', fontFamily: 'monospace' }}>Space</kbd>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <span style={{ color: 'var(--text-muted)' }}>Bookmark</span>
+            <kbd style={{ background: 'var(--surface-color)', padding: '0.2rem 0.5rem', borderRadius: '4px', border: '1px solid var(--surface-border)', fontFamily: 'monospace' }}>B</kbd>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <span style={{ color: 'var(--text-muted)' }}>Rewind 10 words</span>
+            <kbd style={{ background: 'var(--surface-color)', padding: '0.2rem 0.5rem', borderRadius: '4px', border: '1px solid var(--surface-border)', fontFamily: 'monospace' }}>←</kbd>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <span style={{ color: 'var(--text-muted)' }}>Forward 10 words</span>
+            <kbd style={{ background: 'var(--surface-color)', padding: '0.2rem 0.5rem', borderRadius: '4px', border: '1px solid var(--surface-border)', fontFamily: 'monospace' }}>→</kbd>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
