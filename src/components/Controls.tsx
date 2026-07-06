@@ -49,9 +49,27 @@ export const Controls: React.FC<ControlsProps> = ({
       </div>
       
       <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-        <span style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>
-          {currentIndex}
-        </span>
+        <input 
+          type="number"
+          value={currentIndex}
+          onChange={(e) => {
+            const val = parseInt(e.target.value, 10);
+            if (!isNaN(val)) {
+              onSeek(Math.min(Math.max(0, val), totalWords > 0 ? totalWords - 1 : 0));
+            }
+          }}
+          style={{ 
+            width: '60px', 
+            fontSize: '0.875rem', 
+            color: 'var(--text-color, #fff)',
+            background: 'transparent',
+            border: '1px solid var(--border-color, #333)',
+            borderRadius: '4px',
+            padding: '2px 4px',
+            textAlign: 'center'
+          }}
+          disabled={totalWords === 0}
+        />
         <input 
           type="range" 
           className="timeline"
