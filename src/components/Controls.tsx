@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 interface ControlsProps {
   isPlaying: boolean;
@@ -21,6 +21,29 @@ export const Controls: React.FC<ControlsProps> = ({
   onSeek,
   onBookmark
 }) => {
+  const [localIndex, setLocalIndex] = useState(String(currentIndex));
+  const [isEditing, setIsEditing] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // Sync local value from currentIndex when the user is NOT editing
+  useEffect(() => {
+    if (!isEditing) {
+      setLocalIndex(String(currentIndex));
+    }
+  }, [currentIndex, isEditing]);
+
+  const applyValue = () => {
+    const val = parseInt(localIndex, 10);
+    if (!isNaN(val) && totalWords > 0) {
+      const clamped = Math.min(Math.max(0, val), totalWords - 1);
+      onSeek(clamped);
+      setLocalIndex(String(clamped));
+    } else {
+      setLocalIndex(String(currentIndex));
+    }
+    setIsEditing(false);
+  };
+
   return (
     <div className="glass-panel controls-container">
       <div className="playback-controls">
@@ -50,25 +73,39 @@ export const Controls: React.FC<ControlsProps> = ({
       
       <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
         <input 
+          ref={inputRef}
           type="number"
-          value={currentIndex}
-          onChange={(e) => {
-            const val = parseInt(e.target.value, 10);
-            if (!isNaN(val)) {
-              onSeek(Math.min(Math.max(0, val), totalWords > 0 ? totalWords - 1 : 0));
+          value={localIndex}
+          onFocus={() => {
+            setIsEditing(true);
+            // Select all text on focus for easy overwrite
+            setTimeout(() => inputRef.current?.select(), 0);
+          }}
+          onChange={(e) => setLocalIndex(e.target.value)}
+          onBlur={applyValue}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              applyValue();
+              inputRef.current?.blur();
             }
           }}
+          min={0}
+          max={totalWords > 0 ? totalWords - 1 : 0}
           style={{ 
-            width: '60px', 
+            width: '70px', 
             fontSize: '0.875rem', 
             color: 'var(--text-color, #fff)',
-            background: 'transparent',
+            background: isEditing ? 'rgba(255,255,255,0.1)' : 'transparent',
             border: '1px solid var(--border-color, #333)',
             borderRadius: '4px',
-            padding: '2px 4px',
-            textAlign: 'center'
+            padding: '4px 6px',
+            textAlign: 'center',
+            outline: 'none',
+            transition: 'background 0.2s'
           }}
           disabled={totalWords === 0}
+          title="Type a word number and press Enter to jump"
         />
         <input 
           type="range" 
